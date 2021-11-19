@@ -3,4 +3,5 @@ multi30k-bin/
 wmt18-raw-bin/
 examples/bart/
 examples/translation/
-
+.ipynb_checkpoints
+__pycache__

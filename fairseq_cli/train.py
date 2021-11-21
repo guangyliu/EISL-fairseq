@@ -241,8 +241,8 @@ def train(
     valid_subsets = cfg.dataset.valid_subset.split(",")
     should_stop = False
     num_updates = trainer.get_num_updates()
-    import time
-    start1 = time.time()
+#     import time
+#     start1 = time.time()
     for i, samples in enumerate(progress):
         with metrics.aggregate("train_inner"), torch.autograd.profiler.record_function(
             "train_step-%d" % i
@@ -261,9 +261,9 @@ def train(
                 metrics.reset_meters("train_inner")
 
         end_of_epoch = not itr.has_next()
-        if end_of_epoch:
-            end = time.time()
-            print("Train_lgy TIME:",round(start1-end,3))
+#         if end_of_epoch:
+#             end = time.time()
+#             print("Train_lgy TIME:",round(start1-end,3))
         valid_losses, should_stop = validate_and_save(
             cfg, trainer, task, epoch_itr, valid_subsets, end_of_epoch
         )
@@ -350,10 +350,10 @@ def validate_and_save(
     # Validate
     valid_losses = [None]
     if do_validate:
-        import time
-        start = time.time()
+#         import time
+#         start = time.time()
         valid_losses = validate(cfg, trainer, task, epoch_itr, valid_subsets)
-        print("valid_lgy time:",round(time.time()-start,3))
+#         print("valid_lgy time:",round(time.time()-start,3))
     should_stop |= should_stop_early(cfg, valid_losses[0])
     # Save checkpoint
     if do_save or should_stop:

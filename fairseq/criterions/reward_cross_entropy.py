@@ -66,7 +66,7 @@ class RewardCrossEntropyCriterion(LegacyFairseqCriterion):
                     tf.config.experimental.set_memory_growth(this_gpu, True)
                     tf.config.experimental.set_virtual_device_configuration(
                         this_gpu,
-                        [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=2048)])
+                        [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=2048)]) 
                     logical_devices = tf.config.list_logical_devices('GPU')
                     self.logical_device = tf.device(logical_devices[0].name)
                     print("num of logical gpus", len(logical_devices))

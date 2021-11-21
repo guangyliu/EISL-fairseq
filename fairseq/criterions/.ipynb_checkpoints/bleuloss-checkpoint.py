@@ -64,16 +64,16 @@ class NgramBLEULossNATCriterion(LegacyFairseqCriterion):
         lprobs = model.get_normalized_probs(net_output, log_probs=True)
         #         lprobs = lprobs.view(-1, lprobs.size(-1))
         target = model.get_targets(sample, net_output)  # .view(-1)
-        loss_nll = F.nll_loss(
-            lprobs.view(-1, lprobs.size(-1)),
-            target.view(-1),
-            ignore_index=self.padding_idx,
-            reduction="sum" if reduce else "none",
-        ).detach()
+#         loss_nll = F.nll_loss(
+#             lprobs.view(-1, lprobs.size(-1)),
+#             target.view(-1),
+#             ignore_index=self.padding_idx,
+#             reduction="sum" if reduce else "none",
+#         ).detach()
         #         lprobs = lprobs.transpose(0,1)
         expected_len = expected_length(lprobs)
         loss = sample["ntokens"] * self.batch_log_bleulosscnn_nat(lprobs, target, 4, expected_len)
-        return loss, loss_nll
+        return loss, loss
 
     @staticmethod
     def reduce_metrics(logging_outputs) -> None:
@@ -152,6 +152,9 @@ class NgramBLEULossNATCriterion(LegacyFairseqCriterion):
 #             ngram_list = self.ngram
 #             metrics.BleuLog.tf_ratio = 0.0
         ngram_list = self.ngram
+        if ngram_list[0] == -1:
+            ngram_list = [tgt_len]
+        
         if len(ngram_list)==2:
             if ngram_list[0] == 1 and ngram_list[1] == 2:
                 weight_list = [0.8,0.2]
